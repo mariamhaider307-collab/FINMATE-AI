@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinMate AI — Personal Finance Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">💰</span>
+        <h1>FinMate AI</h1>
+      </div>
+      <p class="tagline">Your personal finance assistant</p>
+      <div class="currency-selector">
+        <label for="currency-select" class="sr-only">Select currency</label>
+        <select id="currency-select" class="currency-select">
+          <option value="USD">$ USD — US Dollar</option>
+          <option value="EUR">€ EUR — Euro</option>
+          <option value="GBP">£ GBP — British Pound</option>
+          <option value="PKR">₨ PKR — Pakistani Rupee</option>
+          <option value="INR">₹ INR — Indian Rupee</option>
+          <option value="AED">د.إ AED — UAE Dirham</option>
+          <option value="SAR">﷼ SAR — Saudi Riyal</option>
+          <option value="CNY">¥ CNY — Chinese Yuan</option>
+          <option value="JPY">¥ JPY — Japanese Yen</option>
+          <option value="KRW">₩ KRW — South Korean Won</option>
+          <option value="TRY">₺ TRY — Turkish Lira</option>
+          <option value="AUD">A$ AUD — Australian Dollar</option>
+          <option value="CAD">C$ CAD — Canadian Dollar</option>
+          <option value="CHF">Fr CHF — Swiss Franc</option>
+          <option value="SGD">S$ SGD — Singapore Dollar</option>
+          <option value="MYR">RM MYR — Malaysian Ringgit</option>
+          <option value="IDR">Rp IDR — Indonesian Rupiah</option>
+          <option value="THB">฿ THB — Thai Baht</option>
+          <option value="PHP">₱ PHP — Philippine Peso</option>
+          <option value="BRL">R$ BRL — Brazilian Real</option>
+          <option value="ZAR">R ZAR — South African Rand</option>
+          <option value="MXN">Mex$ MXN — Mexican Peso</option>
+          <option value="NGN">₦ NGN — Nigerian Naira</option>
+          <option value="EGP">E£ EGP — Egyptian Pound</option>
+          <option value="BDT">৳ BDT — Bangladeshi Taka</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ========== SUMMARY CARDS ========== -->
+    <section class="summary-cards">
+      <div class="card card-income">
+        <span class="card-label">Monthly Income</span>
+        <span class="card-value" id="total-income">$0.00</span>
+      </div>
+      <div class="card card-expenses">
+        <span class="card-label">Total Expenses</span>
+        <span class="card-value" id="total-expenses">$0.00</span>
+      </div>
+      <div class="card card-balance">
+        <span class="card-label">Remaining Balance</span>
+        <span class="card-value" id="remaining-balance">$0.00</span>
+      </div>
+    </section>
+
+    <!-- ========== MAIN GRID: FORM + EXPENSE LIST ========== -->
+    <div class="main-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-column">
+
+        <!-- INCOME INPUT -->
+        <section class="card-section">
+          <h2 class="section-title">Monthly Income</h2>
+          <form id="income-form" class="inline-form">
+            <div class="input-group">
+              <label for="income-input" class="sr-only">Monthly income amount</label>
+              <span class="currency-prefix" id="currency-prefix">$</span>
+              <input
+                type="number"
+                id="income-input"
+                placeholder="e.g. 3000"
+                min="0"
+                step="0.01"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Set Income</button>
+          </form>
+        </section>
+
+        <!-- ADD EXPENSE FORM -->
+        <section class="card-section">
+          <h2 class="section-title">Add Expense</h2>
+          <form id="expense-form" class="expense-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="expense-name">Expense Name</label>
+                <input
+                  type="text"
+                  id="expense-name"
+                  placeholder="e.g. Groceries"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="expense-amount">Amount</label>
+                <input
+                  type="number"
+                  id="expense-amount"
+                  placeholder="0.00"
+                  min="0.01"
+                  step="0.01"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="expense-category">Category</label>
+              <select id="expense-category" required>
+                <option value="">Select a category</option>
+                <option value="Food & Dining">🍔 Food & Dining</option>
+                <option value="Transportation">🚗 Transportation</option>
+                <option value="Housing">🏠 Housing</option>
+                <option value="Utilities">💡 Utilities</option>
+                <option value="Entertainment">🎬 Entertainment</option>
+                <option value="Shopping">🛍️ Shopping</option>
+                <option value="Healthcare">🏥 Healthcare</option>
+                <option value="Education">📚 Education</option>
+                <option value="Savings">💰 Savings</option>
+                <option value="Other">📦 Other</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Add Expense</button>
+          </form>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN: EXPENSE LIST -->
+      <div class="right-column">
+        <section class="card-section">
+          <h2 class="section-title">Expense History</h2>
+          <div id="expense-list" class="expense-list">
+            <p class="empty-state">No expenses yet. Add your first expense above!</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ========== SPENDING BREAKDOWN ========== -->
+    <section class="card-section breakdown-section">
+      <h2 class="section-title">Spending Breakdown by Category</h2>
+      <div id="breakdown-container" class="breakdown-container">
+        <p class="empty-state">Add expenses to see your spending breakdown.</p>
+      </div>
+    </section>
+
+    <!-- ========== AI BUDGET ANALYSIS ========== -->
+    <section class="card-section ai-section">
+      <h2 class="section-title ai-section-title">
+        <span class="ai-icon">&#10024;</span> AI Budget Analysis
+      </h2>
+      <p class="ai-description">
+        Get personalized suggestions based on your income and spending patterns.
+      </p>
+      <button id="ai-analyze-btn" class="btn btn-ai" type="button">
+        Analyze My Budget
+      </button>
+      <div id="ai-results" class="ai-results">
+        <p class="empty-state">
+          Set your income and add some expenses, then click the button above for
+          personalized budget insights.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FLOATING CHAT BUTTON ========== -->
+  <button id="chat-toggle-btn" class="chat-toggle-btn" type="button" aria-label="Open FinMate AI Assistant">
+    <span class="chat-toggle-icon">💬</span>
+    <span class="chat-toggle-label">Ask FinMate AI</span>
+  </button>
+
+  <!-- ========== CHAT PANEL ========== -->
+  <div id="chat-panel" class="chat-panel" hidden>
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <span class="chat-avatar">🤖</span>
+        <div>
+          <h3 class="chat-title">FinMate AI Assistant</h3>
+          <span class="chat-status">Online — ready to help</span>
+        </div>
+      </div>
+      <div class="chat-header-actions">
+        <button id="chat-clear-btn" class="chat-icon-btn" type="button" title="Clear chat" aria-label="Clear chat">🗑️</button>
+        <button id="chat-close-btn" class="chat-icon-btn" type="button" title="Close" aria-label="Close chat">✕</button>
+      </div>
+    </div>
+    <div id="chat-messages" class="chat-messages">
+      <!-- Messages are rendered here by JavaScript -->
+    </div>
+    <div id="chat-prompts" class="chat-prompts">
+      <button class="chat-prompt-chip" type="button" data-prompt="Help me make a budget">Help me make a budget</button>
+      <button class="chat-prompt-chip" type="button" data-prompt="How much should I save?">How much should I save?</button>
+      <button class="chat-prompt-chip" type="button" data-prompt="Help me reduce my spending">Reduce my spending</button>
+      <button class="chat-prompt-chip" type="button" data-prompt="Explain my budget">Explain my budget</button>
+      <button class="chat-prompt-chip" type="button" data-prompt="What's the difference between needs and wants?">Needs vs wants</button>
+    </div>
+    <form id="chat-input-form" class="chat-input-area">
+      <input
+        id="chat-input"
+        type="text"
+        class="chat-input"
+        placeholder="Ask me anything about your budget..."
+        autocomplete="off"
+      />
+      <button id="chat-send-btn" class="chat-send-btn" type="submit" aria-label="Send message">
+        <span>➤</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <p>FinMate AI &copy; 2026 &mdash; Built for hackathon demo</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
