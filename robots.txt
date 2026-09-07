@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mariamhaider307-collab.github.io/FINMATE-AI/sitemap.xml
